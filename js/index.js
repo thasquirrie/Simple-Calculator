@@ -7,6 +7,8 @@ const start = {
 };
 
 let buttons = document.querySelectorAll('.key-number');
+let resultDisplay = document.querySelector('#result');
+console.log(resultDisplay);
 
 buttons.forEach(function (item) {
   item.addEventListener("click", function () {
@@ -46,7 +48,9 @@ const button = (type) => {
     return;
   }
   if (type === 'equal') {
-    console.log('operator:', '=');
+    operatorHandler('=');
+    showDisplay();
+    console.log(start);
     return;
   }
   if (type === 'dot') {
@@ -97,20 +101,39 @@ const addDot = (dot) => {
 };
 
 const operatorHandler = (operators) => {
-  const { valueToDisplay, firstNumber, operator } = start;
-  if (firstNumber === undefined || firstNumber === 0) {
-    start.firstNumber = parseFloat(valueToDisplay);
+  const { valueToDisplay, firstNumber, secondNumber, operator } = start;
+  if (operator && operators !== '=' && start.waitForSecondNumber) {
+    start.operator = operators;
+    start.valueToDisplay = start.valueToDisplay.split(' ')[0] + ` ${operators} `;
+    return;
   }
-  start.valueToDisplay += ` ${operators} `;
+
+  if (firstNumber === undefined) {
+    start.firstNumber = parseFloat(valueToDisplay);
+  } else if (operator && secondNumber) {
+    let result = evaluate(parseFloat(firstNumber), parseFloat(secondNumber), operator);
+
+    start.firstNumber = result;
+    start.secondNumber = '0';
+    resultDisplay.style.display = 'block';
+    document.querySelector('#equal-value').innerHTML = parseFloat(result.toFixed(4));
+  }
+  if (operators !== '=') {
+    start.valueToDisplay += ` ${operators} `;
+  } else {
+    start.operator = '';
+  }
+  console.log('New:', start);
   start.waitForSecondNumber = true;
   start.operator = operators;
 };
 
 const allClearHandler = () => {
   start.valueToDisplay = '0';
-  start.firstNumber = 0;
+  start.firstNumber = undefined;
   start.waitForSecondNumber = false;
   start.secondNumber = '0';
+  resultDisplay.style.display = 'none';
 };
 
 // const signHandler = () => {
@@ -118,7 +141,40 @@ const allClearHandler = () => {
 //   if ()
 // };
 
+const add = (a, b) => {
+  return a + b;
+};
 
+const subtract = (a, b) => {
+  return a - b;
+};
+
+const multiply = (a, b) => {
+  return a * b;
+};
+
+const divide = (a, b) => {
+  if (b === 0) {
+    return 'Infinity!';
+  }
+  return a / b;
+};
+
+const evaluate = (firstNumber, secondNumber, operator) => {
+  if (operator === '+') {
+    return add(firstNumber, secondNumber);
+  } else if (operator === '-') {
+    return subtract(firstNumber, secondNumber);
+  } else if (operator === '×') {
+    return multiply(firstNumber, secondNumber);
+  } else if (operator === '÷') {
+    return divide(firstNumber, secondNumber);
+  } else if (operator === '=') {
+    return firstNumber;
+  }
+
+
+};
 
 
 const showDisplay = () => {
