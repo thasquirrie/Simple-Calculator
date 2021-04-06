@@ -16,7 +16,7 @@ body {
  border-radius: 15px;
  background: #ffffff;
  border: 1px solid gray;
- border: 1px solid rgba(156, 218, 115, 1);
+ border: 1px solid rgb(132, 115, 218);
 }
 #calculator #top {
  border-top-right-radius: 15px;
@@ -26,8 +26,8 @@ body {
  background: rgb(90, 190, 124);
  background: linear-gradient(
   60deg,
-  rgba(90, 190, 124, 1) 35%,
-  rgba(156, 218, 115, 1) 100%
+  rgb(90, 93, 190) 35%,
+  rgb(115, 127, 218) 100%
  );
 }
 #calculator #bottom {
@@ -80,8 +80,8 @@ body {
  background: rgb(90, 190, 124);
  background: linear-gradient(
   60deg,
-  rgba(90, 190, 124, 1) 35%,
-  rgba(156, 218, 115, 1) 100%
+  rgb(90, 93, 190) 35%,
+  rgb(115, 127, 218) 100%
  );
  border-radius: 50%;
  color: white;
@@ -103,7 +103,7 @@ body {
 }
 #calculator #top #formula {
  padding: 20px;
- color: #b4f9b2;
+ color: #b2c0f9;
  float: right;
  text-align: right;
  width: calc(100% - 40px);
@@ -116,10 +116,18 @@ body {
  padding: 20px;
  font-size: 40px;
  color: white;
+ /* position: relative; */
 }
 #calculator #top #equal-symbol {
  float: left;
+ /* font-size: 25px; */
+ /* position: absolute; */
+ /* bottom: 15px; */
 }
 #calculator #top #equal-value {
  float: right;
 }
+
+/* #operator {
+ font-size: 20px;
+} */

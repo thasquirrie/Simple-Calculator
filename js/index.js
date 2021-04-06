@@ -6,6 +6,8 @@ const start = {
   waitForSecondNumber: false
 };
 
+
+
 let buttons = document.querySelectorAll('.key-number');
 let resultDisplay = document.querySelector('#result');
 console.log(resultDisplay);
@@ -66,7 +68,10 @@ const button = (type) => {
     return;
   }
   if (type === 'sign') {
-    console.log('operator:', '+/-');
+    // console.log('operator:', '+/-');
+    signHandler(start.valueToDisplay);
+    showDisplay();
+    console.log(start);
     return;
   }
 
@@ -78,7 +83,7 @@ const button = (type) => {
   // console.log(inputDigit(type));
   inputDigit(type);
   showDisplay();
-  console.log(start);
+  // console.log(start);
 };
 
 const inputDigit = (digit) => {
@@ -102,11 +107,13 @@ const addDot = (dot) => {
 
 const operatorHandler = (operators) => {
   const { valueToDisplay, firstNumber, secondNumber, operator } = start;
-  if (operator && operators !== '=' && start.waitForSecondNumber) {
-    start.operator = operators;
-    start.valueToDisplay = start.valueToDisplay.split(' ')[0] + ` ${operators} `;
-    return;
-  }
+  // if (operator && operators !== '=' && start.waitForSecondNumber) {
+  //   start.operator = operators;
+  //   start.valueToDisplay = start.valueToDisplay.replace(start.valueToDisplay.charAt(start.valueToDisplay.length - 2), operators);
+  //   console.log(start.valueToDisplay);
+  //   return;
+  // }
+
 
   if (firstNumber === undefined) {
     start.firstNumber = parseFloat(valueToDisplay);
@@ -119,13 +126,13 @@ const operatorHandler = (operators) => {
     document.querySelector('#equal-value').innerHTML = parseFloat(result.toFixed(4));
   }
   if (operators !== '=') {
-    start.valueToDisplay += ` ${operators} `;
+    start.operator = operators;
+    start.valueToDisplay += ` ${start.operator} `;
   } else {
     start.operator = '';
   }
   console.log('New:', start);
   start.waitForSecondNumber = true;
-  start.operator = operators;
 };
 
 const allClearHandler = () => {
@@ -136,10 +143,14 @@ const allClearHandler = () => {
   resultDisplay.style.display = 'none';
 };
 
-// const signHandler = () => {
-//   let sign = false;
-//   if ()
-// };
+const signHandler = () => {
+  if (start.valueToDisplay.length - 1 >= 1) {
+    console.log(start.valueToDisplay.length - 1);
+    start.valueToDisplay = start.valueToDisplay.slice(0, start.valueToDisplay.length - 2);
+    return;
+  }
+  start.valueToDisplay = '0';
+};
 
 const add = (a, b) => {
   return a + b;
@@ -179,175 +190,7 @@ const evaluate = (firstNumber, secondNumber, operator) => {
 
 const showDisplay = () => {
   document.querySelector('#formula').innerHTML = start.valueToDisplay;
-  console.log(document.querySelector('#formula').innerHTML);
+  // console.log(document.querySelector('#formula').innerHTML);
 };
 
 showDisplay();
-
-
-// var result = document.querySelector("#result");
-// var resultValue = document.querySelector("#equal-value");
-// var buttons = document.querySelectorAll(".key-number");
-// buttons.forEach(function (item) {
-//   // console.log(item);
-//   // console.log(item.id.replace("button-", ""));
-//   item.addEventListener("click", function () {
-//     button(item.id.replace("button-", ""));
-//   });
-// });
-// var state = {
-//   value1: undefined,
-//   value2: undefined,
-//   operator: undefined,
-// };
-// function toString(_state) {
-//   var op = undefined;
-//   if (_state.operator === 'div') {
-//     op = "/";
-//   }
-//   else if (_state.operator === 'mul') {
-//     op = "*";
-//   }
-//   else if (_state.operator === 'min') {
-//     op = "-";
-//   }
-//   else if (_state.operator === 'add') {
-//     op = "+";
-//   }
-//   else if (_state.operator === 'mod') {
-//     op = "%";
-//   }
-//   if (op === undefined && _state.value1 !== undefined) {
-//     return _state.value1;
-//   }
-//   else if (_state.value1 !== undefined && _state.value2 === undefined) {
-//     return state.value1;
-//   }
-//   else if (_state.value1 === undefined && _state.value2 === undefined) {
-//     return 0;
-//   }
-//   else {
-//     return _state.value1 + " " + op + " " + _state.value2;
-//   }
-//   return "";
-// }
-// function show(_state) {
-//   formula.innerHTML = toString(_state);
-//   if (_state.value2 !== undefined) {
-//     _state.value1 = calc(_state);
-//     _state.value2 = undefined;
-//   }
-//   if (_state.value1 === undefined) {
-//     resultValue.innerHTML = 0;
-//     // formula.innerHTML=""; // this have a small problem with layout inline!
-//     formula.innerHTML = "&nbsp;";
-//   }
-//   else {
-//     resultValue.innerHTML = _state.value1;
-//   }
-// }
-// function calc(_state) {
-//   let result = 0;
-//   if (_state.value1 === undefined || _state.value2 === undefined) {
-//     return result;
-//   }
-//   if (_state.operator === undefined) {
-//     return _state.value1;
-//   }
-//   if (_state.operator === 'div') {
-//     if (parseFloat(_state.value2) == 0) {
-//       result = 0;
-//     }
-//     else {
-//       result = parseFloat(_state.value1) / parseFloat(_state.value2);
-//     }
-//   }
-//   else if (_state.operator === 'mul') {
-//     result = parseFloat(_state.value1) * parseFloat(_state.value2);
-//   }
-//   else if (_state.operator === 'min') {
-//     result = parseFloat(_state.value1) - parseFloat(_state.value2);
-//   }
-//   else if (_state.operator === 'add') {
-//     result = parseFloat(_state.value1) + parseFloat(_state.value2);
-//   }
-//   else if (_state.operator === 'mod') {
-//     result = parseFloat(_state.value1) % parseFloat(_state.value2);
-//   }
-//   return result;
-//   // if(result !== undefined) {
-//   // 	return result;
-//   // }
-//   // return undefined;
-//   // return state;
-// }
-// // function button(type) {
-// let button = (type) => {
-//   console.log(type);
-//   if ((type >= '0' && type <= '9') || type === '.' || type === '00') {
-//     if (type === 'dot') {
-//       type = '.';
-//     }
-//     if (state.operator === undefined) {
-//       if (state.value1 === undefined) {
-//         state.value1 = "";
-//       }
-//       state.value1 += type;
-//     }
-//     else {
-//       if (state.value2 === undefined) {
-//         state.value2 = "";
-//       }
-//       console.log('Type:', type);
-//       state.value2 += type;
-//       result.style.display = "block";
-//       formula.innerHTML = toString(state);
-//       // show(state);
-//       resultValue.innerHTML = calc(state);
-//     }
-//   }
-//   else if (type === 'div' || type === 'mul' || type === 'min' || type === 'add' || type === 'mod') {
-//     if (state.value1 !== undefined && state.value2 !== undefined) {
-//       state.value1 = calc(state);
-//       state.value2 = undefined;
-//     }
-//     show(state);
-//     state.operator = type;
-//   }
-//   else if (type === 'sign') {
-//     if (state.value1 !== undefined && state.value2 === undefined) {
-//       state.value2 = state.value1;
-//       state.value1 = -1;
-//       state.operator = 'mul';
-//       show(state);
-//     }
-//     if (state.value1 !== undefined && state.value2 !== undefined) {
-//       state.value1 = calc(state);
-//       state.value2 = state.value1;
-//       state.value1 = -1;
-//       state.operator = 'mul';
-//       show(state);
-//     }
-//   }
-//   else if (type === 'equal') {
-//     result.style.display = "block";
-//     if (state.value2 !== undefined) {
-//       state.value1 = calc(state);
-//       state.value2 = undefined;
-//       state.operator = undefined;
-//     }
-//     show(state);
-//   }
-//   else if (type === 'ac') {
-//     result.style.display = "none";
-//     formula.innerHTML = "Enter your formula and numbers";
-//     resultValue.innerHTML = "";
-//     state.value1 = undefined;
-//     state.value2 = undefined;
-//     state.operator = undefined;
-//   }
-//   else {
-
-//   }
-//   console.log(state);
-// };
