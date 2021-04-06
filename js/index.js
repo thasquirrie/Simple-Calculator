@@ -76,7 +76,9 @@ const button = (type) => {
   }
 
   if (type === 'mod') {
-    console.log('operator', '%');
+    // modButtonHandler(start.firstNumber, start.secondNumber);
+    operatorHandler('%');
+    showDisplay();
     return;
   }
   // console.log(type);
@@ -107,13 +109,6 @@ const addDot = (dot) => {
 
 const operatorHandler = (operators) => {
   const { valueToDisplay, firstNumber, secondNumber, operator } = start;
-  // if (operator && operators !== '=' && start.waitForSecondNumber) {
-  //   start.operator = operators;
-  //   start.valueToDisplay = start.valueToDisplay.replace(start.valueToDisplay.charAt(start.valueToDisplay.length - 2), operators);
-  //   console.log(start.valueToDisplay);
-  //   return;
-  // }
-
 
   if (firstNumber === undefined) {
     start.firstNumber = parseFloat(valueToDisplay);
@@ -171,6 +166,8 @@ const divide = (a, b) => {
   return a / b;
 };
 
+const modButtonHandler = (a, b) => a % b;
+
 const evaluate = (firstNumber, secondNumber, operator) => {
   if (operator === '+') {
     return add(firstNumber, secondNumber);
@@ -182,6 +179,8 @@ const evaluate = (firstNumber, secondNumber, operator) => {
     return divide(firstNumber, secondNumber);
   } else if (operator === '=') {
     return firstNumber;
+  } else if (operator === '%') {
+    return modButtonHandler(firstNumber, secondNumber);
   }
 
 
